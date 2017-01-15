@@ -78,10 +78,14 @@ def split_sentences(review):
     sentences = [clean_text(s) for s in raw_sentences if s]
     return sentences
 
-#sentences = sum(df.review.apply(split_sentences), [])
-sentences = df.review.apply(split_sentences)
-#print sentences
-
+#df.review.apply(split_sentences) 返回类型是pandas.Series, 每条评论是序列的一维,结构如下:
+#  0    [[watching, time, chasers, it, obvious, that, ..], [maybe, they, ...]
+#  1    [[i, saw, this, film, about, years, ago, and, ... ]]
+#其中每个[]内是一个句子
+#使用sum将序列成员加起来,即所有句子放到一个list中。
+# [[u'watching', u'time', u'chasers',..], [...], [i, saw, this..] ... ]
+#另外,sum(sequence, start=None)中sequence是序列,是有index的,不能使用list
+sentences = sum(df.review.apply(split_sentences), [])
 import logging
 logging.basicConfig(format='%(asctime)s:$(levelname)s:%(message)s', level=logging.INFO)
 
@@ -99,5 +103,4 @@ model.init_sims(replace=True)
 
 model.save(os.path.join('.', 'models', model_name))
 print(model.doesnt_match('man woman child kitchen'.split()))
-
 
