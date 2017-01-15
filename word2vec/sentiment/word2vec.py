@@ -71,7 +71,7 @@ model = Word2Vec(sentences, workers=num_workers,
                  window=window, sample=sample)
 model.init_sims(replace=True)
 
-model.save(os.path.join('..', 'models', model_name))
+model.save(os.path.join('.', 'models', model_name))
 print(model.doesnt_match('man woman child kitchen'.split()))
 
 
