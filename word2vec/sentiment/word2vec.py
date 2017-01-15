@@ -50,7 +50,7 @@ print df.head()
 
 eng_stopwords = {}.fromkeys([line.rstrip() for line in open('./stopwords.txt')])
 def clean_text(text, remove_stopwords=False):
-    text = BeautifulSoup(text, 'html.parser').get_text()
+    text = BeautifulSoup(text, 'html.parser').get_text() #可以去除文本中的html标签
     text = re.sub(r'[^a-zA-Z]', ' ', text)
     words = text.lower().split()
     if remove_stopwords:
@@ -86,6 +86,7 @@ def split_sentences(review):
 # [[u'watching', u'time', u'chasers',..], [...], [i, saw, this..] ... ]
 #另外,sum(sequence, start=None)中sequence是序列,是有index的,不能使用list
 sentences = sum(df.review.apply(split_sentences), [])
+
 import logging
 logging.basicConfig(format='%(asctime)s:$(levelname)s:%(message)s', level=logging.INFO)
 
