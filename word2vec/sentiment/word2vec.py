@@ -57,7 +57,7 @@ def clean_text(text, remove_stopwords=False):
         words = [w for w in words if w not in eng_stopwords]
     return words
 
-tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle') #用来将一段话分割成句子
 def print_call_counts(f):
     n = {}
     n[0] = 0
