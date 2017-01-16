@@ -87,9 +87,48 @@ filename = 'word_centroid_map_10avg.pickle'
 with open(os.path.join('.', 'models', filename), 'wb') as f:
     pickle.dump(word_centroid_map, f)
 
-for cluster in range(0, 10):
+for cluster in range(0, 10): #只打印10个
     print("\nCluster %d" % cluster)
     print([w for w,c in word_centroid_map.items() if c == cluster])
+
+wordset = set(word_centroid_map.keys())
+def make_cluster_bag(review):
+    words = clean_text(review, remove_stopwords=True)
+    return (pd.Series([word_centroid_map[w] for w in words if w in wordset])
+            .value_counts()
+            .reindex(range(num_clusters + 1), fill_value=0))
+
+df = load_dataset('labeled_train')
+df.head()
+
+train_data_features = df.review.apply(make_cluster_bag)
+print(train_data_features.head())
+
+forest = RandomForestClassifier(n_estimators=100, random_state=42)
+forest = forest.fit(train_data_features, df.sentiment)
+print confusion_matrix(df.sentiment, forest.predict(train_data_features))
+
+del df
+del train_data_features
+
+df = load_dataset('test')
+test_data_features = df.review.apply(make_cluster_bag)
+print(test_data_features.head())
+
+result = forest.predict(test_data_features)
+output = pd.DataFrame({'id':df.id, 'sentiment':result})
+output.to_csv(os.path.join('models', 'Word2Vec_BagOfClusters.csv'), index=False)
+print output.head()
+
+del df
+del train_data_features
+del forest
+
+
+
+
+
+
 
 
 
