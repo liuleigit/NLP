@@ -34,7 +34,7 @@ def clean_text(text, remove_stopwords=False):
         words = [w for w in words if w not in eng_stopwords]
     return words
 
-model_name = '300features_40minwords_10context.model'
+model_name = '300features_40minwords_10window.model'
 model = Word2Vec.load(os.path.join('models', model_name))
 
 df = load_dataset('labeled_train')
