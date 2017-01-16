@@ -16,8 +16,8 @@ def load_file_and_preprocessing():
     pos = pd.read_excel('data/pos.xls', header=None, index=None)
 
     cw = lambda x: list(jieba.cut(x)) # cut的返回值类型是generator
-    pos['word'] = pos[0].apply(cw)
-    neg['word'] = neg[0].apply(cw)
+    pos['words'] = pos[0].apply(cw)
+    neg['words'] = neg[0].apply(cw)
     #使用1做positive sentiment, 0 for negative sentiment
     y = np.concatenate((np.ones(len(pos)), np.zeros(len(neg))))
     x_train, x_test, y_train, y_test = train_test_split(np.concatenate((pos['words'], neg['words'])), y, test_size=0.2)
