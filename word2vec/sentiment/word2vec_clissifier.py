@@ -20,7 +20,7 @@ def load_dataset(name, nrows=None):
     }
     if name not in datasets:
         raise ValueError(name)
-    data_file = os.path.join('.', 'model', datasets[name])
+    data_file = os.path.join('.', 'data', datasets[name])
     df = pd.read_csv(data_file, sep='\t', escapechar='\\', nrows=nrows)#分隔符,转义字符
     print('Number of reviews:{}'.format(len(df)))
     return df
