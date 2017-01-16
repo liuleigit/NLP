@@ -82,7 +82,7 @@ word_centroid_map = dict(zip(model.index2word, idx))
 #pickle是数据持久存储模块
 import pickle
 filename = 'word_centroid_map_10avg.pickle'
-with open(os.path.join('.', 'models', filename), 'bw') as f:
+with open(os.path.join('.', 'models', filename), 'wb') as f:
     pickle.dump(word_centroid_map, f)
 
 for cluster in range(0, 10):
