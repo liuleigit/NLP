@@ -72,6 +72,24 @@ del df
 del test_data_features
 del forest
 
+# 对词向量进行聚类研究
+word_vectors = model.syn0  #所有词的词向量
+num_clusters = word_vectors.shape[0] // 10
+kmeans_clustering = KMeans(n_clusters = num_clusters, n_jobs=4)
+#使用kmeans对所有词进行聚类
+idx = kmeans_clustering.fit_predict(word_vectors)
+word_centroid_map = dict(zip(model.index2word, idx))
+#pickle是数据持久存储模块
+import pickle
+filename = 'word_centroid_map_10avg.pickle'
+with open(os.path.join('.', 'models', filename), 'bw') as f:
+    pickle.dump(word_centroid_map, f)
+
+for cluster in range(0, 10):
+    print("\nCluster %d" % cluster)
+    print([w for w,c in word_centroid_map.items() if c == cluster])
+
+
 
 
 
