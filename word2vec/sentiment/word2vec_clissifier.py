@@ -42,7 +42,7 @@ df.head()
 
 def to_review_vector(review):
     words = clean_text(review, remove_stopwords=True)
-    array = [model[w] for w in words if w in model]
+    array = np.array([model[w] for w in words if w in model])
     return pd.Series(array.mean(axis=0)) #axis=0表示计算行,1表示计算列
 
 train_data_feature = df.review.apply(to_review_vector)
