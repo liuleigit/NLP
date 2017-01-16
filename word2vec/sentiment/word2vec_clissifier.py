@@ -74,6 +74,8 @@ del forest
 
 # 对词向量进行聚类研究
 word_vectors = model.syn0  #所有词的词向量
+print word_vectors.shape[0]
+print word_vectors.shape[1]
 num_clusters = word_vectors.shape[0] // 10
 kmeans_clustering = KMeans(n_clusters = num_clusters, n_jobs=4)
 #使用kmeans对所有词进行聚类
